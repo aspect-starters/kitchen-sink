@@ -1,0 +1,35 @@
+"""Aspect CLI configuration for this workspace.
+
+See https://docs.aspect.build/cli for the full reference. This file customizes
+the built-in Aspect CLI tasks (build, test, lint, format, ...). It is loaded by
+`aspect` on every invocation.
+"""
+
+
+load("@aspect//format.axl", "format")
+
+# Format Starlark files with buildifier. `buildifier -r .` walks the tree when
+# the format task would otherwise pass zero files (e.g. `--scope=all`).
+buildifier = format.alias(
+    defaults = {
+        "formatter_target": "@buildifier_prebuilt//buildifier",
+        "formatter_args_for_tree_walk": ["-r", "."],
+        "run_in": "cwd",
+        "include_patterns": [
+            "**/BUILD",
+            "**/BUILD.bazel",
+            "**/MODULE.bazel",
+            "**/*.bzl",
+            "**/*.star",
+            "**/*.axl",
+        ],
+    },
+    summary = "Format Starlark files using buildifier.",
+)
+
+
+def config(ctx: ConfigContext):
+    
+    # Register the buildifier alias as a real CLI command (`aspect buildifier`).
+    ctx.tasks.add(buildifier)
+    

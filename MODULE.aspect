@@ -1,0 +1,10 @@
+# AXL dependencies; see https://github.com/aspect-extensions
+
+axl_archive_dep(
+    name = "aspect_rules_lint",
+    urls = ["https://github.com/aspect-build/rules_lint/archive/refs/tags/v2.6.0.tar.gz"],
+    integrity = "sha512-JCveS+pL0BZGUiIi2rz84FRqKXXgK0T0zdGSpOB3ZPhwGVIRaLhKFLDBFoD4DSiinCJm9HyYVoRyiFWgwq6F8g==",
+    strip_prefix = "rules_lint-2.6.0",
+    dev = True,
+    auto_use_tasks = True,
+)
